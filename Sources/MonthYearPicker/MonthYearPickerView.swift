@@ -25,6 +25,9 @@
 import UIKit
 
 open class MonthYearPickerView: UIControl {
+    
+    open var monthFont: UIFont? = nil
+    open var yearFont: UIFont? = nil
 
     /// specify min date. default is nil. When `minimumDate` > `maximumDate`, the values are ignored.
     /// If `date` is earlier than `minimumDate` when it is set, `date` is changed to `minimumDate`.
@@ -176,10 +179,7 @@ extension MonthYearPickerView: UIPickerViewDataSource {
         let label: UILabel = view as? UILabel ?? {
             let label = UILabel()
             if #available(iOS 10.0, *) {
-                label.font = .preferredFont(forTextStyle: .title2, compatibleWith: traitCollection)
                 label.adjustsFontForContentSizeCategory = true
-            } else {
-                label.font = .preferredFont(forTextStyle: .title2)
             }
             label.textAlignment = .center
             return label
@@ -192,9 +192,11 @@ extension MonthYearPickerView: UIPickerViewDataSource {
             case .month:
                 dateComponents.month = value(for: row, representing: .month)
                 dateComponents.year = value(for: pickerView.selectedRow(inComponent: .year), representing: .year)
+                label.font = monthFont ?? label.font
             case .year:
                 dateComponents.month = value(for: pickerView.selectedRow(inComponent: .month), representing: .month)
                 dateComponents.year = value(for: row, representing: .year)
+                label.font = yearFont ?? label.font
         }
 
         guard let date = calendar.date(from: dateComponents) else { return label }
@@ -214,6 +216,7 @@ extension MonthYearPickerView: UIPickerViewDataSource {
 
         return label
     }
+
 }
 
 private extension UIPickerView {
