@@ -56,7 +56,7 @@ open class MonthYearPickerView: UIControl {
                 date = calendar.date(from: calendar.dateComponents([.year, .month], from: maximumDate)) ?? maximumDate
             }
             setDate(date, animated: true)
-            sendActions(for: .editingChanged)
+            sendActions(for: .valueChanged)
         }
     }
 
